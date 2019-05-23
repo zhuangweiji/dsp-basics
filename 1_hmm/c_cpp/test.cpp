@@ -5,31 +5,31 @@
 #include "hmm.h"
 using namespace std;
 
-static int load_models( const char *listname, vector<HMM*> &hmms, vector<string>& model_files )
-{
-   FILE *fp = fopen( listname, "r" );
-   if( fp == nullptr ){
-      perror( listname );
-   }
-   unsigned int count = 0;
-   char filename[MAX_LINE] = "";
-   while( fscanf(fp, "%s", filename) == 1 ){
-      hmms[count]->loadHMM(filename);
-      model_files.push_back(filename);
-      count ++;
+static int load_models(const char* listname, vector<HMM*>& hmms, vector<string>& model_files) {
+  FILE* fp = fopen(listname, "r");
+  if (fp == nullptr) {
+    perror(listname);
+  }
+  unsigned int count = 0;
+  char filename[MAX_LINE] = "";
+  while (fscanf(fp, "%s", filename) == 1) {
+    hmms[count]->loadHMM(filename);
+    model_files.push_back(filename);
+    count++;
 
-      if( count >= hmms.size() ){
-         // return count;
-         break;
-      }
-   }
-   fclose(fp);
-   return count;
+    if (count >= hmms.size()) {
+      // return count;
+      break;
+    }
+  }
+  fclose(fp);
+  return count;
 }
 void read_seq_data(vector<string>& seq_data, const char* seq_file_name) {
   ifstream seq_file(seq_file_name);
   if (!seq_file) {
-    cerr << "Cannot open " << seq_file_name << ", aborting...\n"; exit(-1);
+    cerr << "Cannot open " << seq_file_name << ", aborting...\n";
+    exit(-1);
   }
   string buf;
   while (getline(seq_file, buf)) {
@@ -37,14 +37,15 @@ void read_seq_data(vector<string>& seq_data, const char* seq_file_name) {
   }
 }
 
-
 int main(int argc, const char** argv) {
   bool acc = false;
   if (argc < 4) {
-    cerr << "Usage: ./test modellist.txt testing_data.txt result.txt [-a]\n"; exit(-1);
+    cerr << "Usage: ./test modellist.txt testing_data.txt result.txt [-a]\n";
+    exit(-1);
   }
   if (argc == 5 && strcmp(argv[4], "-a") == 0) {
-    cout << "Computing accuracy with testing_answer.txt.\n"; acc = true;
+    cout << "Computing accuracy with testing_answer.txt.\n";
+    acc = true;
   }
 
   /* initialize hmms and get modellist files*/
@@ -88,7 +89,7 @@ int main(int argc, const char** argv) {
       getline(answer_file, buf2);
       size_t p = buf1.find(' ');
       string f1 = buf1.substr(0, p);
-      if (f1 == buf2) {   // sequence model match
+      if (f1 == buf2) {  // sequence model match
         numer += 1;
       }
       deno += 1;

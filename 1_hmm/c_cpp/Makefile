@@ -20,4 +20,4 @@ test: test.cpp hmm.o
 	g++ -o $@ test.cpp hmm.o $(CFLAGS)
 
 clean:
-	$(RM) $(TARGET) model_0* result.txt acc.txt # type make clean to remove the compiled file
+	$(RM) $(TARGET) *.o model_0* result.txt acc.txt # type make clean to remove the compiled file
